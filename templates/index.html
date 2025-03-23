@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cards-Inator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Cards Search</h1>
+    <form method="POST">
+        <input type="text" name="search_query" placeholder="Enter Card Name">
+        <button type="submit">Search</button>
+    </form>
+<div id="results">
+    {% for card in results %}
+        <div class="card">
+            <h2>{{ card.get('name') }}</h2>
+            <img src="{{ card.get('image_uris', {}).get('digital', {}).get('small') }}">
+            <p>{{ card.get('set', {}).get('name') }}</p>
+            <div class="card-actions">
+                {% if card.in_collection %}
+                    <button class="remove-from-collection">-</button>
+                {% endif %}
+                <button class="add-to-collection">+</button>
+                {% if card.count > 0 %}
+                    <span class="card-count">{{ card.count }}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

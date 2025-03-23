@@ -1,0 +1,43 @@
+body {
+    font-family: sans-serif;
+}
+
+.card {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    width: 250px;
+    text-align: center;
+}
+
+.card img {
+    max-width: 200px; /* Ustal maksymalną szerokość obrazu */
+    height: auto; /* Ustal automatyczną wysokość obrazu */
+    display: block; /* Ustaw obraz jako blok, aby można było go wyśrodkować */
+    margin: 0 auto; /* Wyśrodkuj obraz wewnątrz karty */
+}
+
+.card h2, .card p {
+    font-size: 16px
+    word-wrap: break-word; /* Zawijaj długie nazwy */
+    margin: 5px 0; /* Dodaj odstęp między elementami */
+    line-height: 1.2;
+}
+.card-actions {
+    text-align: center;
+    margin-top: 10px;
+}
+.card-actions button {
+    padding: 5px 10px;
+    margin: 0 5px;
+}
+.card-count {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
