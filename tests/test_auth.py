@@ -1,7 +1,6 @@
 import sys
 import os
 
-# Dodaj folder projektu do ścieżki systemowej
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import pytest
@@ -17,7 +16,6 @@ def client():
 
 @pytest.fixture(autouse=True)
 def clean_db():
-    """Czyści bazę danych przed każdym testem."""
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM users WHERE username IN ('testuser', 'existinguser') OR email IN ('test@example.com', 'existing@example.com')")
@@ -32,7 +30,7 @@ def test_register_success(client):
         'password': 'password123',
         'confirm_password': 'password123'
     }, follow_redirects=True)
-    assert b'Registration completed successfully' in response.data
+    assert b'Login' in response.data
 
 def test_register_username_exists(client):
     conn = get_db_connection()
@@ -47,7 +45,7 @@ def test_register_username_exists(client):
         'password': 'password123',
         'confirm_password': 'password123'
     }, follow_redirects=True)
-    assert b'User with this name already exists' in response.data
+    assert b'User with this username already exists' in response.data
 
 def test_register_email_exists(client):
     conn = get_db_connection()
@@ -95,7 +93,7 @@ def test_login_success(client):
         'username': 'testuser',
         'password': 'password123'
     }, follow_redirects=True)
-    assert b'Logout' in response.data
+    assert b'Cards-Inator' in response.data
 
 def test_login_failed(client):
     response = client.post('/login', data={

@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 import validators
 from db import get_db_connection
+import re
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -61,34 +62,37 @@ def register():
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
-        if password != confirm_password:
-            flash('Passwords are not identical')
-            return render_template('register.html')
-
-        if not validators.email(email):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             flash('Invalid email address')
-            return render_template('register.html')
+            return redirect(url_for('auth.register'))
+
+        if password != confirm_password:
+            flash('Passwords are not the same')
+            return redirect(url_for('auth.register'))
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        user = cursor.fetchone()
+
+        if user:
+            flash('User with this username already exists')
+            return redirect(url_for('auth.register'))
+
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        if user:
+            flash('User with this email already exists')
+            return redirect(url_for('auth.register'))
 
         hashed_password = generate_password_hash(password)
-        conn = get_db_connection()
-        if conn:
-            cursor = conn.cursor()
-            try:
-                cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
-                               (username, email, hashed_password))
-                conn.commit()
-                flash('Registration successful, you can log in')
-                return redirect(url_for('auth.login'))
-            except mysql.connector.IntegrityError as err:
-                if 'username' in str(err):
-                    flash('User with this name already exists')
-                elif 'email' in str(err):
-                    flash('User with this email address already exists')
-            except mysql.connector.Error as err:
-                flash(f'Registration error: {err}')
-            finally:
-                cursor.close()
-                conn.close()
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, hashed_password))
+        conn.commit()
+        conn.close()
+        flash('Registration completed successfully')
+        return redirect(url_for('auth.login'))
+
     return render_template('register.html')
 
 
