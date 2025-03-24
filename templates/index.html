@@ -1,33 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cards-Inator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jaini:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Cards Search</h1>
-    <form method="POST">
-        <input type="text" name="search_query" placeholder="Enter Card Name">
-        <button type="submit">Search</button>
-    </form>
-<div id="results">
-    {% for card in results %}
-        <div class="card">
-            <h2>{{ card.get('name') }}</h2>
-            <img src="{{ card.get('image_uris', {}).get('digital', {}).get('small') }}">
-            <p>{{ card.get('set', {}).get('name') }}</p>
-            <div class="card-actions">
-                {% if card.in_collection %}
-                    <button class="remove-from-collection">-</button>
-                {% endif %}
-                <button class="add-to-collection">+</button>
-                {% if card.count > 0 %}
-                    <span class="card-count">{{ card.count }}</span>
-                {% endif %}
-            </div>
+    <header>
+        <div id="logo-container">
+            <h1>CARDS-INATOR</h1>
+            <img src="{{ url_for('static', filename='images/Logo.jpg') }}" alt="Logo Cards-Inator">
         </div>
-    {% endfor %}
-</div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <div id="user-menu">
+            <button id="user-menu-button">Ikona</button>
+            <div id="user-menu-dropdown">
+                <a href="#">Add Friend</a>
+                <a href="#">My Friends</a>
+                </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="upcoming-events">
+            <h2>Upcoming Events</h2>
+            <div id="event-list">
+                <div class="event-item">
+                    <img src="event1.jpg" alt="Event 1">
+                    <h3>Event Title 1</h3>
+                    <p>Date: 2024-03-15, Hour: 18:00</p>
+                </div>
+                <div class="event-item">
+                    <img src="event2.jpg" alt="Event 2">
+                    <h3>Event Title 2</h3>
+                    <p>Date: 2024-03-20, Hour: 19:00</p>
+                </div>
+                <button id="add-event-button">Add Event</button>
+            </div>
+        </section>
+
+        <section id="main-options">
+            <div class="option-container">
+                <div class="option-title">CARDS</div>
+                <div class="option-dropdown">
+                    <a href="#">SEARCH CARD</a>
+                    <a href="#">MY COLLECTION</a>
+                    <a href="#">WISHLIST</a>
+                </div>
+            </div>
+            <div class="option-container">
+                <div class="option-title">DECKS</div>
+                <div class="option-dropdown">
+                    <a href="#">CREATE NEW DECK</a>
+                    <a href="#">MY DECKS</a>
+                </div>
+            </div>
+            <div class="option-container">
+                <div class="option-title">EVENTS</div>
+                <div class="option-dropdown">
+                    <a href="#">ADD NEW EVENT</a>
+                    <a href="#">MY EVENTS</a>
+                    <a href="#">ALL EVENTS</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>

@@ -41,3 +41,20 @@ body {
     padding: 2px 5px;
     border-radius: 3px;
 }
+#event-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.option-container {
+    background: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    max-width: 250px;
+    border-radius: 10px;
+}
+
+.option-container:nth-child(1) { background-image: url('static/images/Card-Search.jpg'); }
+.option-container:nth-child(2) { background-image: url('static/images/Deck-Making.jpg'); }
+.option-container:nth-child(3) { background-image: url('static/images/Events.jpg'); }
