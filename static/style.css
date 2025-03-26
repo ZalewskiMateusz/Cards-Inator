@@ -1,60 +1,191 @@
+/* Resetowanie stylów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: sans-serif;
+    background-color: #696969;
+    color: #DCDCDC;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+    align-items: center;
 }
 
-.card {
+/* HEADER */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+/* Logo + Cards-Inator */
+#logo-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 300px;
+    background-image: url('images/Logo.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#logo-container h1 {
+    font-size: 24px;
+    color: white;
+    margin-left: 15px;
+}
+
+/* User Menu */
+#user-menu {
     position: relative;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    display: inline-block;
-    width: 250px;
-    text-align: center;
 }
 
-.card img {
-    max-width: 200px; /* Ustal maksymalną szerokość obrazu */
-    height: auto; /* Ustal automatyczną wysokość obrazu */
-    display: block; /* Ustaw obraz jako blok, aby można było go wyśrodkować */
-    margin: 0 auto; /* Wyśrodkuj obraz wewnątrz karty */
+#user-menu-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-image: url('images/Icon-User.jpg');
+    background-size: cover;
+    background-color: transparent;
+    cursor: pointer;
 }
 
-.card h2, .card p {
-    font-size: 16px
-    word-wrap: break-word; /* Zawijaj długie nazwy */
-    margin: 5px 0; /* Dodaj odstęp między elementami */
-    line-height: 1.2;
-}
-.card-actions {
-    text-align: center;
-    margin-top: 10px;
-}
-.card-actions button {
-    padding: 5px 10px;
-    margin: 0 5px;
-}
-.card-count {
+/* Hidden User Menu */
+#user-menu-dropdown {
+    display: none;
     position: absolute;
-    bottom: 5px;
-    left: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 2px 5px;
-    border-radius: 3px;
+    right: 0;
+    top: 45px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 150px;
 }
-#event-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+
+#user-menu:hover #user-menu-dropdown {
+    display: block;
+    position: absolute;
+    top: 100%;
 }
-.option-container {
-    background: #f4f4f4;
+
+#user-menu-dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+#user-menu-dropdown a:hover {
+    background: #ddd;
+}
+
+/* Event Section */
+#upcoming-events {
+    margin-top: 100px;
     padding: 20px;
     text-align: center;
-    flex: 1;
-    max-width: 250px;
-    border-radius: 10px;
+    justify-content: center
 }
 
-.option-container:nth-child(1) { background-image: url('static/images/Card-Search.jpg'); }
-.option-container:nth-child(2) { background-image: url('static/images/Deck-Making.jpg'); }
-.option-container:nth-child(3) { background-image: url('static/images/Events.jpg'); }
+#event-list {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.event-item {
+    background: white;
+    color: black;
+    width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.event-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Core Menu (CARDS, DECKS, EVENTS) */
+#main-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.option-container {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+/* Images Backgrounds for core menu */
+.option-container:nth-child(1) {
+    background-image: url('images/Card-Search.jpg');
+}
+.option-container:nth-child(2) {
+    background-image: url('images/Deck-Making.jpg');
+}
+.option-container:nth-child(3) {
+    background-image: url('images/Events.jpg');
+}
+
+.option-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 4px black;
+}
+
+/* Dropdown Core menu */
+.option-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.option-container:hover .option-dropdown {
+    display: block;
+}
+
+.option-dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+}
+
+.option-dropdown a:hover {
+    background: #ddd;
+}

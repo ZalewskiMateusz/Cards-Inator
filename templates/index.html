@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cards-Inator</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jaini:wght@400;700&display=swap" rel="stylesheet">
@@ -13,10 +13,9 @@
     <header>
         <div id="logo-container">
             <h1>CARDS-INATOR</h1>
-            <img src="{{ url_for('static', filename='images/Logo.jpg') }}" alt="Logo Cards-Inator">
         </div>
         <div id="user-menu">
-            <button id="user-menu-button">Ikona</button>
+            <button id="user-menu-button"></button>
             <div id="user-menu-dropdown">
                 <a href="#">Add Friend</a>
                 <a href="#">My Friends</a>
@@ -42,6 +41,7 @@
             </div>
         </section>
 
+        <!-- Main Menu -->
         <section id="main-options">
             <div class="option-container">
                 <div class="option-title">CARDS</div>
