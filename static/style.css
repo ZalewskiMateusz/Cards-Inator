@@ -1,4 +1,4 @@
-/* Resetowanie stylów */
+/* Styles Reset */
 * {
     margin: 0;
     padding: 0;
@@ -6,13 +6,19 @@
 }
 
 body {
-    background-color: #696969;
     color: #DCDCDC;
     font-family: Arial, sans-serif;
     flex-direction: column;
     align-items: center;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 12%, #C850C0 57%, #FFCC70 100%);
+    background-size: cover;
+    background-attachment: fixed;
 }
-
+.content-container {
+    margin-top: 110px;
+    margin-left: 50px;
+}
 /* HEADER */
 header {
     position: fixed;
@@ -188,4 +194,86 @@ header {
 
 .option-dropdown a:hover {
     background: #ddd;
+}
+/* SEARCH CARD  */
+
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.card {
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.card p {
+    font-size: 0.9em;
+}
+
+.card-actions {
+    margin-top: 15px;
+}
+
+.card-actions button {
+    padding: 5px 10px;
+    margin: 0 5px;
+}
+
+.card-count {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* SEARCH CARDS INK FILTERS */
+.ink-filters {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ink-option {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: border 0.2s ease-in-out;
+}
+
+/* Hide checkbox */
+.ink-option input {
+    display: none;
+}
+
+/* Backgrounds Ink img */
+.ink-option.amber { background-image: url("/static/images/Amber-Ink.png"); }
+.ink-option.amethyst { background-image: url("/static/images/Amethyst-Ink.png"); }
+.ink-option.emerald { background-image: url("/static/images/Emerald-Ink.png"); }
+.ink-option.ruby { background-image: url("/static/images/Ruby-Ink.png"); }
+.ink-option.sapphire { background-image: url("/static/images/Sapphire-Ink.png"); }
+.ink-option.steel { background-image: url("/static/images/Steel-Ink.png"); }
+
+
+.ink-option input:checked + label {
+    border: 2px solid gold;
 }

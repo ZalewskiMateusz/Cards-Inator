@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Cards-Inator{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div id="logo-container">
+            <h1><a href="{{ url_for('routes.index') }}">CARDS-INATOR</a></h1>
+        </div>
+        <div id="user-menu">
+            <button id="user-menu-button"></button>
+            <div id="user-menu-dropdown">
+                <a href="#">Add Friend</a>
+                <a href="#">My Friends</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

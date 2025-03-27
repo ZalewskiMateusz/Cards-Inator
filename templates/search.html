@@ -1,15 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cards-Inator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <h1>Cards Search</h1>
-    <form method="POST">
-        <input type="text" name="search_query" placeholder="Enter Card Name">
-        <button type="submit">Search</button>
-    </form>
+{% extends "base.html" %}
+
+{% block title %}Search Cards - Cards-Inator{% endblock %}
+
+{% block content %}
+<h2>Cards Search</h2>
+<form method="POST">
+    <input type="text" name="search_query" placeholder="Enter Card Name">
+
+    <div class="ink-filters">
+        <label class="ink-option amber">
+            <input type="checkbox" name="ink" value="Amber">
+        </label>
+        <label class="ink-option amethyst">
+            <input type="checkbox" name="ink" value="Amethyst">
+        </label>
+        <label class="ink-option emerald">
+            <input type="checkbox" name="ink" value="Emerald">
+        </label>
+        <label class="ink-option ruby">
+            <input type="checkbox" name="ink" value="Ruby">
+        </label>
+        <label class="ink-option sapphire">
+            <input type="checkbox" name="ink" value="Sapphire">
+        </label>
+        <label class="ink-option steel">
+            <input type="checkbox" name="ink" value="Steel">
+        </label>
+    </div>
+
+    <button type="submit">Search</button>
+</form>
+
 <div id="results">
     {% for card in results %}
         <div class="card">
@@ -28,6 +49,4 @@
         </div>
     {% endfor %}
 </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% endblock %}
