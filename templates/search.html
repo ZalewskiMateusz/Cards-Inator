@@ -5,27 +5,16 @@
 {% block content %}
 <h2>Cards Search</h2>
 <form method="POST">
-    <input type="text" name="search_query" placeholder="Enter Card Name">
+    <input type="text" name="search_query" placeholder="Enter Card Name" value="{{ search_query }}">
 
     <div class="ink-filters">
-        <label class="ink-option amber">
-            <input type="checkbox" name="ink" value="Amber">
-        </label>
-        <label class="ink-option amethyst">
-            <input type="checkbox" name="ink" value="Amethyst">
-        </label>
-        <label class="ink-option emerald">
-            <input type="checkbox" name="ink" value="Emerald">
-        </label>
-        <label class="ink-option ruby">
-            <input type="checkbox" name="ink" value="Ruby">
-        </label>
-        <label class="ink-option sapphire">
-            <input type="checkbox" name="ink" value="Sapphire">
-        </label>
-        <label class="ink-option steel">
-            <input type="checkbox" name="ink" value="Steel">
-        </label>
+        {% for ink_color in ["Amber", "Amethyst", "Emerald", "Ruby", "Sapphire", "Steel"] %}
+            <div class="ink-option">
+                <input type="checkbox" id="{{ ink_color.lower() }}" name="ink" value="{{ ink_color }}"
+                    {% if ink_color in selected_inks %}checked{% endif %}>
+                <label for="{{ ink_color.lower() }}" class="ink-box {{ ink_color.lower() }}" data-ink="{{ ink_color }}"></label>
+            </div>
+        {% endfor %}
     </div>
 
     <button type="submit">Search</button>

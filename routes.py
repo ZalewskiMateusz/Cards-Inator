@@ -14,30 +14,39 @@ def index():
 @login_required
 def search():
     user_id = current_user.id
-    results = []
-    if request.method == 'POST':
-        search_query = request.form['search_query']
-        selected_inks = request.form.getlist("ink")
+    results = []  # 🔹 Inicjalizacja zmiennej, żeby uniknąć błędu
+    search_query = request.form.get('search_query', '')  # Pobieramy poprzednią wartość (lub pusty string)
+    selected_inks = request.form.getlist('ink')  # Pobieramy wybrane kolory (lista!)
 
-        api_url = f"https://api.lorcast.com/v0/cards/search?q={search_query}"
-        try:
-            response = requests.get(api_url)
-            response.raise_for_status()
-            data = response.json()
-            results = data.get('results', [])
+    # Budujemy URL API dynamicznie
+    api_url = "https://api.lorcast.com/v0/cards/search?q="
 
-            #Filter by ink color
-            if selected_inks:
-                results = [card for card in results if card.get('ink') in selected_inks]
+    filters = []
+    if search_query:
+        filters.append(search_query)
+    if selected_inks:
+        ink_filter = " OR ".join(selected_inks)  # API akceptuje wiele kolorów
+        filters.append(f"ink:{ink_filter}")
 
-            for card in results:
-                card['in_collection'] = check_if_card_in_collection(user_id, card['id'])
-                card['count'] = get_card_count(user_id, card['id'])
-        except requests.exceptions.RequestException as e:
-            print(f"API Error: {e}")
-        except ValueError as e:
-            print(f"JSON parsing error: {e}")
-    return render_template('search.html', results=results)
+    if filters:
+        api_url += " AND ".join(filters)
+
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()
+        data = response.json()
+        results = data.get('results', [])  # 🔹 Jeśli API nie zwróci "results", zwrócimy pustą listę
+
+        for card in results:
+            card['in_collection'] = check_if_card_in_collection(user_id, card['id'])
+            card['count'] = get_card_count(user_id, card['id'])
+
+    except requests.exceptions.RequestException as e:
+        print(f"API Error: {e}")
+    except ValueError as e:
+        print(f"JSON parsing error: {e}")
+
+    return render_template('search.html', results=results, search_query=search_query, selected_inks=selected_inks)
 
 @routes_bp.route('/add_to_collection/<card_id>')
 @login_required

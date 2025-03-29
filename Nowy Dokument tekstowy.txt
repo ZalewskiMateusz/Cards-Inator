@@ -1,3 +1,5 @@
 git add .
 git commit -m "Opis zmian"
 git push origin master
+
+api_url = f"https://api.lorcast.com/v0/cards/search?q={search_query}"

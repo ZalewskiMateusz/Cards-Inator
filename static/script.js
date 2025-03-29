@@ -1,11 +1,15 @@
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('add-to-collection')) {
-        const cardId = event.target.closest('.card').querySelector('h2').textContent;
-        fetch(`/add_to_collection/${cardId}`)
-            .then(() => location.reload());
-    } else if (event.target.classList.contains('remove-from-collection')) {
-        const cardId = event.target.closest('.card').querySelector('h2').textContent;
-        fetch(`/remove_from_collection/${cardId}`)
-            .then(() => location.reload());
-    }
+document.addEventListener("DOMContentLoaded", function () {
+    const inkOptions = document.querySelectorAll(".ink-option");
+
+    inkOptions.forEach(option => {
+        option.addEventListener("click", function () {
+            const checkbox = this.querySelector("input");
+
+            // Zmiana stanu checkboxa
+            checkbox.checked = !checkbox.checked;
+
+            // Dodanie/Usunięcie klasy aktywnej
+            this.classList.toggle("active");
+        });
+    });
 });

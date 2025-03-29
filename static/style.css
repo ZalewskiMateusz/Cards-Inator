@@ -249,6 +249,21 @@ header {
 }
 
 .ink-option {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+/* Ukrywamy checkbox */
+.ink-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Styl dla obrazka koloru */
+.ink-box {
     width: 50px;
     height: 50px;
     display: inline-block;
@@ -257,23 +272,24 @@ header {
     cursor: pointer;
     border-radius: 10px;
     border: 2px solid transparent;
-    transition: border 0.2s ease-in-out;
+    transition: border 0.2s ease-in-out, filter 0.2s;
 }
 
-/* Hide checkbox */
-.ink-option input {
-    display: none;
+/* Ustawienie tła dla każdego koloru */
+.ink-box.amber { background-image: url("/static/images/Amber-Ink.png"); }
+.ink-box.amethyst { background-image: url("/static/images/Amethyst-Ink.png"); }
+.ink-box.emerald { background-image: url("/static/images/Emerald-Ink.png"); }
+.ink-box.ruby { background-image: url("/static/images/Ruby-Ink.png"); }
+.ink-box.sapphire { background-image: url("/static/images/Sapphire-Ink.png"); }
+.ink-box.steel { background-image: url("/static/images/Steel-Ink.png"); }
+
+/* Szare domyślnie */
+.ink-box {
+    filter: grayscale(60%);
 }
 
-/* Backgrounds Ink img */
-.ink-option.amber { background-image: url("/static/images/Amber-Ink.png"); }
-.ink-option.amethyst { background-image: url("/static/images/Amethyst-Ink.png"); }
-.ink-option.emerald { background-image: url("/static/images/Emerald-Ink.png"); }
-.ink-option.ruby { background-image: url("/static/images/Ruby-Ink.png"); }
-.ink-option.sapphire { background-image: url("/static/images/Sapphire-Ink.png"); }
-.ink-option.steel { background-image: url("/static/images/Steel-Ink.png"); }
-
-
-.ink-option input:checked + label {
-    border: 2px solid gold;
+/* Jeśli checkbox jest zaznaczony, kolor staje się pełny + złota ramka */
+.ink-option input:checked + .ink-box {
+    filter: grayscale(0%);
+    border: 3px solid gold;
 }
