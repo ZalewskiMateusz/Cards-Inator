@@ -7,13 +7,14 @@
 <body>
     <header>
         <div id="logo-container">
-            <h1><a href="{{ url_for('routes.index') }}">CARDS-INATOR</a></h1>
+            <a href="{{ url_for('routes.index') }}"></a>
         </div>
         <div id="user-menu">
             <button id="user-menu-button"></button>
             <div id="user-menu-dropdown">
                 <a href="#">Add Friend</a>
                 <a href="#">My Friends</a>
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
         </div>
     </header>

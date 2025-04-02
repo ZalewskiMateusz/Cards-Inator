@@ -3,3 +3,13 @@ git commit -m "Opis zmian"
 git push origin master
 
 api_url = f"https://api.lorcast.com/v0/cards/search?q={search_query}"
+
+            <!-- Cost Filters -->
+            <div class="cost-filters">
+                {% for cost in range(1, 10) %}
+                    <input type="checkbox" id="cost{{ cost }}" name="cost" value="{{ cost }}">
+                    <label for="cost{{ cost }}">{{ cost }}</label>
+                {% endfor %}
+                <input type="checkbox" id="cost9plus" name="cost" value="9+">
+                <label for="cost9plus">9+</label>
+            </div>

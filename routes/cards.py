@@ -1,79 +1,53 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_required, current_user
-import requests
-from db import get_db_connection
+import pytest
+from main import Product, Cart, PaymentGateway
 
-cards_bp = Blueprint('cards', __name__)
-@cards_bp.route('/search', methods=['GET', 'POST'])
-@login_required
-def search():
-    user_id = current_user.id
-    results = []
-    if request.method == 'POST':
-        search_query = request.form['search_query']
-        api_url = f"https://api.lorcast.com/v0/cards/search?q={search_query}"
-        try:
-            response = requests.get(api_url)
-            response.raise_for_status()
-            data = response.json()
-            results = data.get('results', [])
-            for card in results:
-                card['in_collection'] = check_if_card_in_collection(user_id, card['id'])
-                card['count'] = get_card_count(user_id, card['id'])
-        except requests.exceptions.RequestException as e:
-            print(f"API Error: {e}")
-        except ValueError as e:
-            print(f"JSON parsing error: {e}")
-    return render_template('search.html', results=results)
+# Test jednostkowy: Testowanie funkcji Cart.calculate_total()
+def test_cart_calculate_total():
+    cart = Cart()
+    product1 = Product("Mouse", 50)
+    product2 = Product("Keyboard", 80)
+    cart.add_product(product1, 1)
+    cart.add_product(product2, 1)
+    assert cart.calculate_total() == 130
 
-@cards_bp.route('/add_to_collection/<card_id>')
-@login_required
-def add_to_collection(card_id):
-    user_id = current_user.id
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO user_collections (user_id, card_id, count) VALUES (%s, %s, 1) "
-            "ON DUPLICATE KEY UPDATE count = count + 1",
-            (user_id, card_id)
-        )
-        conn.commit()
-        cursor.close()
-        conn.close()
-    return redirect(url_for('cards.search'))
+# Test jednostkowy: Testowanie klasy Product
+def test_product():
+    product = Product("Laptop", 1000)
+    assert product.name == "Laptop"
+    assert product.price == 1000
 
-@cards_bp.route('/remove_from_collection/<card_id>')
-@login_required
-def remove_from_collection(card_id):
-    user_id = current_user.id
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM user_collections WHERE user_id = %s AND card_id = %s", (user_id, card_id))
-        conn.commit()
-        cursor.close()
-        conn.close()
-    return redirect(url_for('cards.search'))
+    with pytest.raises(ValueError):
+        Product("Phone", -500)
 
-def check_if_card_in_collection(user_id, card_id):
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM user_collections WHERE user_id = %s AND card_id = %s", (user_id, card_id))
-        result = cursor.fetchone()[0]
-        cursor.close()
-        conn.close()
-        return result > 0
-    return False
+# Test jednostkowy: Testowanie dodawania wielu produktów do koszyka
+def test_cart_add_multiple_products():
+    cart = Cart()
+    cart.add_product(Product("Pen", 5), 3)
+    cart.add_product(Product("Notebook", 15), 2)
+    assert cart.calculate_total() == 45
 
-def get_card_count(user_id, card_id):
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT SUM(count) FROM user_collections WHERE user_id = %s AND card_id = %s", (user_id, card_id))
-        result = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return result[0] if result and result[0] else 0
-    return 0
+# Test jednostkowy: Testowanie klasy PaymentGateway
+def test_payment_gateway_process_payment():
+    assert PaymentGateway.process_payment(100) == True
+
+    with pytest.raises(ValueError):
+        PaymentGateway.process_payment(0)
+
+# Test integracyjny: Testowanie przepływu płatności
+def test_payment_flow():
+    cart = Cart()
+    cart.add_product(Product("Phone", 500), 1)
+    cart.add_product(Product("Case", 20), 2)
+    total = cart.calculate_total()
+
+    assert PaymentGateway.process_payment(total) == True
+
+# Test jednostkowy: Testowanie dodawania produktów do koszyka i błędów w koszyku
+def test_cart_items():
+    cart = Cart()
+    product = Product("Book", 20)
+    cart.add_product(product, 2)
+    assert len(cart.items) == 1
+
+    with pytest.raises(ValueError):
+        cart.add_product(product, 0)

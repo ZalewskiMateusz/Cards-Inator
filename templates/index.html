@@ -19,6 +19,7 @@
             <div id="user-menu-dropdown">
                 <a href="#">Add Friend</a>
                 <a href="#">My Friends</a>
+                <a herf="{{ url_for('auth.logout') }}">Logout</a>
                 </div>
         </div>
     </header>
@@ -47,7 +48,7 @@
                 <div class="option-title">CARDS</div>
                 <div class="option-dropdown">
                     <a href="{{ url_for('routes.search') }}">SEARCH CARD</a>
-                    <a href="#">MY COLLECTION</a>
+                    <a href="{{ url_for('routes.user_collection') }}">MY COLLECTION</a>
                     <a href="#">WISHLIST</a>
                     <a href="#">LOANS</a>
                 </div>
@@ -62,7 +63,7 @@
             <div class="option-container">
                 <div class="option-title">EVENTS</div>
                 <div class="option-dropdown">
-                    <a href="#">ADD NEW EVENT</a>
+                    <a href="{{ url_for('routes.create_event') }}">ADD NEW EVENT</a>
                     <a href="#">MY EVENTS</a>
                     <a href="#">ALL EVENTS</a>
                 </div>

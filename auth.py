@@ -100,7 +100,8 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('routes.index'))
+    flash('You have successfully logout')
+    return redirect(url_for('auth.login'))
 
 def init_auth(app, login_manager):
     login_manager.init_app(app)

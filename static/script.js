@@ -13,3 +13,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.add-to-collection').forEach(button => {
+        button.addEventListener('click', function () {
+            const cardElement = this.closest('.card');
+            const cardId = cardElement.dataset.cardId; // Pobieramy ID karty z atrybutu data-card-id
+            window.location.href = `/add_to_collection/${cardId}`;
+        });
+    });
+
+    document.querySelectorAll('.remove-from-collection').forEach(button => {
+        button.addEventListener('click', function () {
+            const cardElement = this.closest('.card');
+            const cardId = cardElement.dataset.cardId; // Pobieramy ID karty
+            window.location.href = `/remove_from_collection/${cardId}`;
+        });
+    });
+});

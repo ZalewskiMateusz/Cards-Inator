@@ -22,7 +22,7 @@
 
 <div id="results">
     {% for card in results %}
-        <div class="card">
+        <div class="card" data-card-id="{{ card.get('id') }}">
             <h2>{{ card.get('name') }}</h2>
             <img src="{{ card.get('image_uris', {}).get('digital', {}).get('small') }}">
             <p>{{ card.get('set', {}).get('name') }}</p>
@@ -34,6 +34,7 @@
                 {% if card.count > 0 %}
                     <span class="card-count">{{ card.count }}</span>
                 {% endif %}
+                <button class="add-to-wishlist"></button>
             </div>
         </div>
     {% endfor %}

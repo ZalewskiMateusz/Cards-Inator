@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>CREATE A NEW EVENT</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Event Name</label>
+            <input type="text" id="name" name="name" required class="form-control" placeholder="Enter event name">
+        </div>
+
+        <div class="form-group">
+            <label for="date">Event Date</label>
+            <input type="date" id="date" name="date" required class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Event Description</label>
+            <textarea id="description" name="description" class="form-control" placeholder="Describe the event"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Event Image</label>
+            <input type="file" id="image" name="image" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="public">
+                <input type="checkbox" id="public" name="public" value="true">
+                Public Event
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Event</button>
+    </form>
+{% endblock %}
